@@ -55,3 +55,7 @@ journalctl -u github-backup.service -f
 проверка по GitHub API (источник истины), а не по ghorg `--prune`.
 
 если запрос к API упал или вернул пустой список, перенос пропускается (защита от ложного сноса при сбое токена/сети) — см. строки `trash skipped` в логах.
+
+---
+
+[banochkin.com DAO](https://banochkin.com/) 🏴‍☠️
