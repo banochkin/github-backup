@@ -11,18 +11,19 @@ log() {
   printf '%s  %s\n' "$(date '+%Y-%m-%dT%H:%M:%S%z')" "$*"
 }
 
-# Stream repo names from a paginated GitHub API endpoint.
-# $1 token, $2 base url (must already contain a query string, e.g. "...?type=owner").
+# Stream a field from a paginated GitHub API endpoint.
+# $1 token, $2 base url (must already contain a query string, e.g. "...?type=owner"),
+# $3 jq field selector (default ".[].name"; orgs expose their slug as ".login").
 # Returns non-zero if any request fails (so callers can skip pruning on errors).
 gh_paginate() {
-  local token="$1" base="$2" page=1 body names
+  local token="$1" base="$2" field="${3:-.[].name}" page=1 body names
   while :; do
     body=$(curl -fsS \
       -H "Authorization: Bearer ${token}" \
       -H "Accept: application/vnd.github+json" \
       -H "X-GitHub-Api-Version: 2022-11-28" \
       "${base}&per_page=100&page=${page}") || return 1
-    names=$(printf '%s' "$body" | jq -r '.[].name')
+    names=$(printf '%s' "$body" | jq -r "$field")
     [ -z "$names" ] && break
     printf '%s\n' "$names"
     page=$((page + 1))
@@ -31,7 +32,7 @@ gh_paginate() {
 
 list_member_orgs() {
   local token="$1"
-  gh_paginate "$token" "https://api.github.com/user/orgs?dummy=1"
+  gh_paginate "$token" "https://api.github.com/user/orgs?dummy=1" '.[].login'
 }
 
 list_user_repos() {
