@@ -58,6 +58,27 @@ journalctl -u github-backup.service -f
 
 Если запрос к API упал или вернул пустой список, перенос пропускается (защита от ложного сноса при сбое токена/сети) — см. строки `trash skipped` в логах.
 
+## Проверка бекапов
+
+**Содержимое** — что и когда последний раз забекапилось (сортировка по свежести):
+
+```bash
+./backup-status.sh            # или: ./backup-status.sh /data
+```
+
+Колонки: `LAST FETCH` (когда зеркало последний раз синхронизировалось),
+`LAST COMMIT` (дата свежайшего коммита в зеркале), `REPO`. Верхние строки —
+самое недавнее. Внизу — счётчик зеркал в trash и общий размер.
+
+**Прогоны** — отработал ли таймер и с каким результатом (systemd):
+
+```bash
+systemctl list-timers github-backup.timer --no-pager   # когда следующий / последний запуск
+systemctl status github-backup.service --no-pager      # результат последнего прогона
+journalctl -u github-backup.service -n 100 --no-pager  # полный лог последнего прогона
+journalctl -u github-backup.service -f                 # смотреть вживую
+```
+
 ---
 
 [banochkin.com DAO](https://banochkin.com/) 🏴‍☠️
