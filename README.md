@@ -42,7 +42,7 @@ WantedBy=timers.target
 ```
 
 ```
-bashsystemctl daemon-reload
+systemctl daemon-reload
 systemctl enable --now github-backup.timer
 journalctl -u github-backup.service -f
 ```
