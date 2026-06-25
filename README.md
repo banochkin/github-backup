@@ -2,7 +2,7 @@
 
 С кайфом + быстро + просто (на это упор) регулярный бекап всех реп из Github на любой vps.
 
-Нужен github.com/gabrie30/ghorg.
+Нужен [github.com/gabrie30/ghorg](github.com/gabrie30/ghorg).
 
 ## Установка
 
