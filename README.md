@@ -1,12 +1,14 @@
 # github-backup
 
-с кайфом + быстро + просто (на это упор) регулярный бекап всех реп из Github на любой vps.
+С кайфом + быстро + просто (на это упор) регулярный бекап всех реп из Github на любой vps.
 
-нужен github.com/gabrie30/ghorg.
+Нужен github.com/gabrie30/ghorg.
 
-## установка
+## Установка
 
-```cp accounts.env.example accounts.env```
+```
+cp accounts.env.example accounts.env
+```
 
 ```
 chmod 600 /root/github-backup/accounts.env
@@ -45,16 +47,16 @@ systemctl enable --now github-backup.timer
 journalctl -u github-backup.service -f
 ```
 
-## удалённые репозитории (trash)
+## Удалённые репозитории (trash)
 
-при удалении на github репо переносятся в `/data/_trash/...` с таймстампом:
+При удалении на github репо переносятся в `/data/_trash/...` с таймстампом:
 
 - user: `/data/<account>/repos/<repo>`  → `/data/_trash/<account>/repos/<repo>__<UTC>`
 - org:  `/data/<account>/orgs/<org>/<repo>` → `/data/_trash/<account>/orgs/<org>/<repo>__<UTC>`
 
-проверка по GitHub API (источник истины), а не по ghorg `--prune`.
+Проверка по GitHub API (источник истины), а не по ghorg `--prune`.
 
-если запрос к API упал или вернул пустой список, перенос пропускается (защита от ложного сноса при сбое токена/сети) — см. строки `trash skipped` в логах.
+Если запрос к API упал или вернул пустой список, перенос пропускается (защита от ложного сноса при сбое токена/сети) — см. строки `trash skipped` в логах.
 
 ---
 
